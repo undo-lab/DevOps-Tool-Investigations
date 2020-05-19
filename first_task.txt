@@ -1,0 +1,30 @@
+1
+ 	Name:Setup of taskrecorder database
+	 Description:set up a mariadb server running on a machine on my home network, along with a command-line frontend written in golang(gui WIP). able to be accessed remotely, regardless of what network im on
+	 Time:4-5 hours. most of the time was spent googling golang/sql syntax
+	 Difficulty:simple. most difficult part was ensuring remote access, as users have to specifically granted access to the database with a certain name, password, and IP
+	 Links/Comments:none
+2
+ 	Name:first kubernetes cluster
+	 Description:I set up a simple 4 node cluster, with my laptop as the master and 3 ubuntu server VM's as the workers. All on my local machine, but it would be easy enough to extend to other devices. 
+	 Time:3 hours or so if youre a newbie with some guidance
+	 Difficulty:intermediate. Most of my time was wasted trying to install kubernetes on debian VM's, and after a few horus i switched to ubuntu server and it made my life a lot easier.
+	 Links/Comments:https://blog.sourcerer.io/a-kubernetes-quick-start-for-people-who-know-just-enough-about-docker-to-get-by-71c5933b4633#3664, i also made a github repo with some documentation for future use:https://github.com/C256k145/KubernetesScripts, Kubernetes Documentation is good as well: https://kubernetes.io/docs/home/
+3
+ 	Name:Install Istio on kubernetes cluster
+	 Description:Install the Istio service mesh on a kubernetes cluster that is already initialized. Turns out its not tinstructions on the istio website
+	 Time:it took me several days but realistically it can be done in an hour
+	 Difficulty:I had problems because my kubernetes environment was not set up correctly, and also likely because I didnt allocate enough memory to the VM, 1 GB was not enough, got it working with 2 GB. Specifically, if you cannot run the command kubectl get nodes, then the istioctl installation will not work
+	 Links/Comments:follow the instructions, and make sure your kubernetes environment variables are set up correctly. https://istio.io/docs/setup/install/istioctl/
+4
+ 	Name:Deploy Consul on Kubernetes
+	 Description:Deploying consul on an existing kubernetes cluster.
+	 Time:about 4-5 hours, but the vast majority of that time was spent debugging
+	 Difficulty:The install was actually quite simple just from following the install instructions on consul's website. The issue was that the services needed access to a persistentVolume. After manually creating a persistent volume for eserver pod, i had to manually edit the config ofeach volume to assign a pod as the owner of the volume. 
+	 Links/Comments:following the install on the website will get you started https://www.consul.io/docs/platform/k8s/run.html, and i edited the config using 'kubectl patch', detailed use here: https://kubernetes.io/docs/reference/kubectl/cheatsheet/#patching-resources.is github issues page helpful, although its not where i found my solution https://github.com/hashicorp/consul-helm/issues/237
+5
+	Name:Deploy Consul on VM's without Kubernetes
+	Description:Set up a cluster to connect several virtual machines via consul.
+	Time:This took about an hour and a half, but most of that time was spent upgrading by ubuntu 16.04 VMs to 18.04. The consul apt package was not available on ubuntu 16.04, which is why i upgraded
+	Difficulty:Not hard at all, only really encountered minor inconveniences. The documentation for consul is honestly not great, it provides step by step commands that often just dont work and it provides no helpful description for debugging. I had to put the VM's on the same NAT network, and I had to manually create the config directory and log file, since it doesnt auto-create them. Also, the consul agent takes over the shell completely, so i needed to start the agent in the VM windows, and then ssh into the server node in order to execute the command to join the nodes.
+	Links/Comments:This tutorial was the most helpful https://learn.hashicorp.com/consul/getting-started/join, although a handful of the commands they provided didnt execute, so i had to play with it a bit to get it working.
